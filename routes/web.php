@@ -16,3 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::prefix('clients') -> group(function(){
+    Route::get('', 'App\Http\Controllers\ClientController@index')->name('client.index');
+    Route::get('create', 'App\Http\Controllers\ClientController@create')->name('client.create');
+    Route::post('store', 'App\Http\Controllers\ClientController@store')->name('client.store');
+    Route::get('edit/{client}', 'App\Http\Controllers\ClientController@edit')->name('client.edit');
+    Route::post('update/{client}', 'App\Http\Controllers\ClientController@update')->name('client.update');
+    Route::post('destroy/{client}', 'App\Http\Controllers\ClientController@destroy')->name('client.destroy');
+    Route::get('show/{client}', 'App\Http\Controllers\ClientController@show')->name('client.show');
+});
