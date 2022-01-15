@@ -6,6 +6,8 @@ use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
 
+use Illuminate\Http\Request;
+
 class CompanyController extends Controller
 {
     /**
@@ -15,7 +17,8 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
+        $companys = Company::all();
+        return view('companys.index', ['companys' => $companys]);
     }
 
     /**
@@ -25,7 +28,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        //
+        return view('companys.create');
     }
 
     /**
@@ -34,9 +37,16 @@ class CompanyController extends Controller
      * @param  \App\Http\Requests\StoreCompanyRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCompanyRequest $request)
+    public function store(Request $request)
     {
-        //
+        $company = new company;        
+        $company->name = $request->name; 
+        $company->type = $request->type;
+        $company->description = $request->description;
+      
+        $company->save();
+
+        return redirect()->route('company.index');
     }
 
     /**
@@ -47,7 +57,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        //
+        return view('companys.show', ['company'=>$company]);
     }
 
     /**
@@ -58,7 +68,7 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        //
+        return view('companys.edit' ,['company' => $company]);
     }
 
     /**
@@ -68,9 +78,15 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCompanyRequest $request, Company $company)
+    public function update(Request $request, Company $company)
     {
-        //
+        $company->name = $request->name; 
+        $company->type = $request->type;
+        $company->description = $request->description;
+      
+        $company->save();
+
+        return redirect()->route('company.index');
     }
 
     /**
@@ -81,6 +97,7 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        //
+        $company->delete();
+        return redirect()->route('company.index');
     }
 }
